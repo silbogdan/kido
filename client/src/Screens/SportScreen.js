@@ -11,7 +11,7 @@ const SportScreen = () => {
 	return (
 		<div className="flex-grow px-3 py-4">
 			<Card
-				title="10 genoflexiuni"
+				title="10 genuflexiuni"
 				description="timp de 10 min"
 				points={20}
 				color={Colors.random()}
