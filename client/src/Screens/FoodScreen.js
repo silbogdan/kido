@@ -11,29 +11,23 @@ const FoodScreen = () => {
     return (
         <div className="flex-grow px-3 py-4">
             <FoodCard
-                title="Adderall"
-                description="Tragi pe nas"
+                title="Ciorba de vaca"
+                description="Nu o chema milka, promit"
                 points={15}
                 color={Colors.random()}
                 type={1}
             />
             <FoodCard
-                title="Adderall"
-                description="Tragi pe nas"
+                title="Salata Caesar"
+                description="Et tu Brutus?"
                 points={10}
                 color={Colors.random()}
                 type={1}
             />
-            <FoodCard
-                title="Adderall"
-                description="Tragi pe nas"
-                points={20}
-                color={Colors.random()}
-                type={1}
-            />
+
             <FoodCard
                 title="Savarina"
-                description="Desert"
+                description="Desertul lu' Connect-R"
                 points={15}
                 color={Colors.random()}
                 type={-1}
