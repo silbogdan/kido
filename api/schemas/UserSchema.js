@@ -20,7 +20,8 @@ const UserSchema = new Schema({
                 {
                     name: String,
                     time: Number,
-                    reps: Number
+                    reps: Number,
+                    isActive: Boolean
                 }
             ],
             foods: [
@@ -38,13 +39,15 @@ const UserSchema = new Schema({
                                 kcal: Number
                             }
                         ]
-                    }
+                    },
+                    isActive: Boolean
                 }
             ],
             rewards: [
                 {
                     name: String,
                     cost: Number,
+                    isActive: Boolean
                 }
             ],
             points: Number
