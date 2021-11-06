@@ -1,41 +1,72 @@
 import React, { useState } from 'react';
-
-//firt last email rol
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const LoginScreen = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPass] = useState('');
+	const navigate = useNavigate();
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 
-    return (
-        <div className="flex flex-col gap-3 flex-grow justify-center items-center">
-            <div>
-                <div className="flex flex-col py-3 gap-1">
-                    <label htmlFor="" className="text-white text-xl">
-                        Email
-                    </label>
-                    <input
-                        onChange={(e) => setEmail(e.target.value)}
-                        type="text"
-                        className="text-white bg-transparent border-b"
-                    />
-                </div>
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		let data = {
+			username: email,
+			password,
+		};
 
-                <div className="flex flex-col py-3 gap-1">
-                    <label htmlFor="" className="text-white text-xl">
-                        Password
-                    </label>
-                    <input
-                        onChange={(e) => setPass(e.target.value)}
-                        type="password"
-                        className="text-white bg-transparent border-b"
-                    />
-                </div>
-            </div>
-            <button className="btn bg-darkGreen p-3 text-white text-xl border rounded-xl">
-                Submit
-            </button>
-        </div>
-    );
+		let config = {
+			method: 'post',
+			url: 'http://localhost:5000/auth/login',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			data: data,
+		};
+
+		axios(config)
+			.then(function (response) {
+				let token = JSON.stringify(response.data);
+				console.log(JSON.stringify(response.data));
+				localStorage.setItem('token', token);
+				navigate('/shop');
+			})
+			.catch(function (error) {
+				console.log(error);
+			});
+	};
+
+	return (
+		<div className="flex flex-col gap-3 flex-grow justify-center items-center">
+			<form onSubmit={handleSubmit}>
+				<div>
+					<div className="flex flex-col py-3 gap-1">
+						<label htmlFor="username" className="text-white text-xl">
+							Email / Username
+						</label>
+						<input
+							onChange={(e) => setEmail(e.target.value)}
+							type="text"
+							className="text-white bg-transparent border-b"
+						/>
+					</div>
+
+					<div className="flex flex-col py-3 gap-1">
+						<label htmlFor="password" className="text-white text-xl">
+							Password
+						</label>
+						<input
+							onChange={(e) => setPassword(e.target.value)}
+							type="password"
+							className="text-white bg-transparent border-b"
+						/>
+					</div>
+				</div>
+				<button className="btn bg-darkGreen p-3 text-white text-xl border rounded-xl">
+					Submit
+				</button>
+			</form>
+		</div>
+	);
 };
 
 export default LoginScreen;
