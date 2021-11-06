@@ -1,4 +1,6 @@
 const UserService = require('./UserService');
+const jwt = require('jsonwebtoken');
+
 
 const AuthService = {
     /*
@@ -12,10 +14,12 @@ const AuthService = {
     register: async (user) => {
         const savedResult = await UserService.addUser(user);
         if (savedResult) {
-            return [201, user.username];
+            delete user.password;
+            const token = jwt.sign({user: user}, process.env.JWT_SECRET, {expiresIn: 3600});
+            return [201, token];
         }
 
-        return [400, 'Username exists'];
+        return [400, 'Username or email exists'];
     },
 
     /*
@@ -25,7 +29,8 @@ const AuthService = {
     login: async (user) => {
         const loginRes = await UserService.verifyUser(user);
         if (loginRes) {
-            return [200, ''];
+            const token = jwt.sign({user: loginRes}, process.env.JWT_SECRET, {expiresIn: 3600});
+            return [200, token];
         }
 
         return [401, 'Wrong username or password'];

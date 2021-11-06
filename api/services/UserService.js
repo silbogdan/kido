@@ -15,8 +15,6 @@ const UserService = {
             ]
         });
 
-        console.log(foundUser);
-
         if (!foundUser) {
             const newUser = new User({
                 "firstName": user.firstName,
@@ -51,11 +49,14 @@ const UserService = {
     },
 
     verifyUser: async (user) => {
-        const foundUser = await UserService.getUser(user);
-
+        let foundUser = await UserService.getUser(user);
+        foundUser = foundUser.toJSON();
         if (foundUser) {
             if (await bcrypt.compare(user.password, foundUser.password)) {
-                return true;
+                delete foundUser.password;
+                delete foundUser.__v;
+                delete foundUser._id;
+                return foundUser;
             } else {
                 return false;
             }

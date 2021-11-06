@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const expressJWT = require('express-jwt');
 
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_STRING, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
@@ -15,7 +16,20 @@ app.use(express.json());
 
 app.use(cors());
 
-// app.use('/hello', HelloRoute);
+app.use(
+    expressJWT({
+      secret: process.env.JWT_SECRET,
+      algorithms: ['HS256'],
+      getToken: (req) => {
+          if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer')
+              return req.headers.authorization.split(' ')[1];
+          else if (req.query && req.query.token)
+              return req.query.token;
+  
+          return null;
+      }
+    }).unless({ path: ['/auth/login', '/auth/register'] })
+);
 
 app.use('/auth', Auth);
 
