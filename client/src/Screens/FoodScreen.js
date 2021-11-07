@@ -1,45 +1,49 @@
 import React from 'react';
-import FoodCard from '../Components/FoodCard';
-import Header from '../Components/Header';
-import Footer from '../Components/Footer';
+import Card from '../Components/Card';
 
-const FoodScreen = () => {
-	const Colors = ['orange', 'yellow', 'lightGreen', 'darkGreen'];
 
-	Array.prototype.random = function () {
-		return this[Math.floor(Math.random() * this.length)];
-	};
+import Header from '../Components/Header'
+import Footer from '../Components/Footer'
 
-	return (
-		<>
-			<Header />
-			<div className="flex-grow px-3 py-4">
-				<FoodCard
-					title="Ciorba de vaca"
-					description="Nu o chema milka, promit"
-					points={15}
-					color={Colors.random()}
-					type={1}
-				/>
-				<FoodCard
-					title="Salata Caesar"
-					description="Et tu Brutus?"
-					points={10}
-					color={Colors.random()}
-					type={1}
-				/>
+const FoodScreenP = () => {
+    const Colors = ['orange', 'yellow', 'lightGreen', 'darkGreen'];
 
-				<FoodCard
-					title="Savarina"
-					description="Desertul lu' Connect-R"
-					points={15}
-					color={Colors.random()}
-					type={-1}
-				/>
-			</div>
-			<Footer />
-		</>
-	);
+    Array.prototype.random = function () {
+        return this[Math.floor(Math.random() * this.length)];
+    };
+
+    return (
+        <>
+            <Header></Header>
+            <div className="flex-grow px-3 py-4">
+                <Card
+                    title="Ciorba de vaca"
+                    description="Nu o chema milka, promit"
+                    points={15}
+                    color={Colors.random()}
+                    type={1}
+                />
+                <Card
+                    title="Salata Caesar"
+                    description="Et tu Brutus?"
+                    points={10}
+                    color={Colors.random()}
+                    type={1}
+                />
+                <Card
+                    title="Savarina"
+                    description="Desertul lu' Connect-R"
+                    points={15}
+                    color={Colors.random()}
+                    type={-1}
+                />
+
+            </div>
+            <Footer></Footer>
+        </>
+
+
+    );
 };
 
-export default FoodScreen;
+export default FoodScreenP;

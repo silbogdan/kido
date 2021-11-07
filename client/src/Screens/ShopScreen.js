@@ -1,51 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from '../Components/Card';
-import Footer from '../Components/Footer';
-import Header from '../Components/Header';
+import ModalCard from '../Components/ModalCard';
+import Header from '../Components/Header'
+import Footer from '../Components/Footer'
+import JWT from 'jsonwebtoken'
+require('dotenv').config();
 
-const ShopScreen = () => {
-	const Colors = ['orange', 'yellow', 'lightGreen', 'darkGreen'];
+const ShopScreenP = () => {
+    const Colors = ['orange', 'yellow', 'lightGreen', 'darkGreen'];
+    const [cardArray, setCardArray] = useState([{
+        title: "Zoo",
+        description: "mergem la zoo",
+        points: 50,
+    },
+    {
+        title: "Cinema",
+        description: "mergem la cinema",
+        points: 70,
+    }]);
 
-	Array.prototype.random = function () {
-		return this[Math.floor(Math.random() * this.length)];
-	};
 
-	return (
-		<>
-			<Header />
-			<div className="flex-grow px-3 py-4">
-				<Card
-					title="Zoo"
-					description="mergem la zoo"
-					points={50}
-					color={Colors.random()}
-					type={-1}
-				/>
-				<Card
-					title="Cinema"
-					description="mergem la filmul preferat"
-					points={60}
-					color={Colors.random()}
-					type={-1}
-				/>
-				<Card
-					title="Gaming"
-					description="te las sa te joci lol"
-					points={100}
-					color={Colors.random()}
-					type={-1}
-				/>
-				<Card
-					title="Lego"
-					description="iti cumpar un lego"
-					points={200}
-					color={Colors.random()}
-					type={-1}
-				/>
-			</div>
-			<Footer />
-		</>
-	);
+    Array.prototype.random = function () {
+        return this[Math.floor(Math.random() * this.length)];
+    };
+
+
+    const rewardsCallBack = (points, title) => {
+        let newArray = [...cardArray, { title, points, description: "" }]
+        setCardArray(newArray)
+    }
+
+    return (
+        <>
+            <Header></Header>
+            <div className="flex-grow px-3 py-4">
+                {/* #TODO To be fixed later */}
+                {JWT.verify(JSON.parse(localStorage.getItem('token')).token, process.env.REACT_APP_JWT_SECRET).user.role === 'child' ? '' :
+                    <ModalCard
+                        title="Add New Reward!"
+                        description="Test"
+                        type_mod="Reward"
+                        points={0}
+                        color={'darkGreen'}
+                        type={1}
+                        cb={rewardsCallBack}
+                    />
+                }
+                {cardArray.map((card, index) => (
+                    <Card
+                        key={index}
+                        title={card.title}
+                        description={card.description}
+                        points={card.points}
+                        color={Colors.random()}
+                        type={-1}
+                    />
+                ))}
+            </div>
+            <Footer></Footer>
+        </>
+
+    );
 };
 
-export default ShopScreen;
+export default ShopScreenP;
