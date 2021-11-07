@@ -20,13 +20,16 @@ const UserSchema = new Schema({
                 {
                     name: String,
                     description: String,
-                    points: Number,
+                    points: { type: Number, default: 0 },
+
                     isActive: Boolean
                 }
             ],
             foods: [
                 {
                     name: String,
+                    description: String,
+                    points: { type: Number, default: 0 },
                     rating: Number,
                     recipe: {
                         name: String,
@@ -46,7 +49,8 @@ const UserSchema = new Schema({
             rewards: [
                 {
                     name: String,
-                    cost: Number,
+                    cost: { type: Number, default: 0 },
+                    description: { type: String, default: 'Reward for being healthy' },
                     isActive: Boolean
                 }
             ],

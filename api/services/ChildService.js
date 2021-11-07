@@ -25,8 +25,10 @@ const ChildService = {
     },
 
     getFood: async (child) => {
-        const foundChild = await ChildService.getChild(child);
-        if (foundChild.length > 0) {
+        const foundChild = await ChildService.getChild(child.user);
+        if (foundChild) {
+            if (!foundChild[0])
+                return [200, []]
             return [200, foundChild[0].foods];
         }
 
@@ -34,8 +36,10 @@ const ChildService = {
     },
 
     getActivities: async (child) => {
-        const foundChild = await ChildService.getChild(child);
-        if (foundChild.length > 0) {
+        const foundChild = await ChildService.getChild(child.user);
+        if (foundChild) {
+            if (!foundChild[0])
+                return [200, []]
             return [200, foundChild[0].activities];
         }
 
@@ -43,8 +47,11 @@ const ChildService = {
     },
 
     getRewards: async (child) => {
-        const foundChild = await ChildService.getChild(child);
-        if (foundChild.length > 0) {
+        const foundChild = await ChildService.getChild(child.user);
+
+        if (foundChild) {
+            if (!foundChild[0])
+                return [200, []]
             return [200, foundChild[0].rewards];
         }
 

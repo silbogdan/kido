@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const RegisterScreen = ({ history }) => {
     const navigate = useNavigate();
@@ -11,6 +12,7 @@ const RegisterScreen = ({ history }) => {
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('parent');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [parentCode, setParentCode] = useState('');
     const [error, setError] = useState(false);
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -24,16 +26,29 @@ const RegisterScreen = ({ history }) => {
             return setError('Passwords do not match');
         }
 
-        let data = {
-            firstName,
-            lastName,
-            username,
-            email,
-            password,
-            role
-        };
+        let data, config;
 
-        let config = {
+        if (role === 'parent') {
+            data = {
+                firstName,
+                lastName,
+                username,
+                email,
+                password,
+                role
+            };
+        } else {
+            data = {
+                firstName,
+                lastName,
+                username,
+                password,
+                role,
+                code: parentCode
+            }
+        }
+
+        config = {
             method: 'post',
             url: 'http://localhost:5000/auth/register',
             headers: {
@@ -197,7 +212,8 @@ const RegisterScreen = ({ history }) => {
                                     Parent ID
                                 </label>
                                 <input
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    value={parentCode}
+                                    onChange={(e) => setParentCode(e.target.value)}
                                     type="text"
                                     className="text-lightGreen bg-transparent border-b border-lightGreen"
                                 />
@@ -208,6 +224,9 @@ const RegisterScreen = ({ history }) => {
                 <button className="bg-darkGreen p-3 text-white text-xl border rounded-xl">
                     Submit
                 </button>
+                <Link to="/" className="btn bg-orange p-3 ml-7 text-white text-xl border rounded-xl">
+					Cancel
+				</Link>
             </form>
         </div>
     );

@@ -13,19 +13,25 @@ router.post('/addchild', async (req, res) => {
 });
 
 router.get('/getFood', async (req, res) => {
-    const foodResult = await ChildService.getFood(req.body);
+    const token = req.headers.authorization.split(' ')[1];
+
+    const foodResult = await ChildService.getFood(jwt.verify(token, process.env.JWT_SECRET));
 
     return res.status(foodResult[0]).send(foodResult[1]);
 });
 
-router.post('/getActivities', async (req, res) => {
-    const activitiesesult = await ChildService.getFood(req.body);
+router.get('/getActivities', async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+
+    const activitiesesult = await ChildService.getActivities(jwt.verify(token, process.env.JWT_SECRET));
 
     return res.status(activitiesesult[0]).send(activitiesesult[1]);
 });
 
 router.get('/getRewards', async (req, res) => {
-    const rewardsResult = await ChildService.getFood(req.body);
+    const token = req.headers.authorization.split(' ')[1];
+
+    const rewardsResult = await ChildService.getRewards(jwt.verify(token, process.env.JWT_SECRET));
 
     return res.status(rewardsResult[0]).send(rewardsResult[1]);
 });

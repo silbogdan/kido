@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const LoginScreen = () => {
 	const navigate = useNavigate();
@@ -64,6 +65,9 @@ const LoginScreen = () => {
 				<button className="btn bg-darkGreen p-3 text-white text-xl border rounded-xl">
 					Submit
 				</button>
+				<Link to="/" className="btn bg-orange p-3 ml-5 text-white text-xl border rounded-xl">
+					Cancel
+				</Link>
 			</form>
 		</div>
 	);

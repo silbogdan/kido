@@ -1,25 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '../Components/Card';
 import ModalCard from '../Components/ModalCard';
 import Header from '../Components/Header'
 import Footer from '../Components/Footer'
 import JWT from 'jsonwebtoken'
 import axios from 'axios'
-
 require('dotenv').config();
 
 const ShopScreenP = () => {
     const Colors = ['orange', 'yellow', 'lightGreen', 'darkGreen'];
-    const [cardArray, setCardArray] = useState([{
-        title: "Zoo",
-        description: "mergem la zoo",
-        points: 50,
-    },
-    {
-        title: "Cinema",
-        description: "mergem la cinema",
-        points: 70,
-    }]);
+
+    const [cardArray, setCardArray] = useState([{}]);
+
+    const token = JSON.parse(localStorage.getItem('token'))['token'];
+
+    useEffect(() => {
+
+        let config = {
+            method: 'get',
+            url: 'http://localhost:5000/user/getRewards',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        };
+
+
+        axios(config).then(res => {
+            const activities = res.data;
+            setCardArray(activities);
+        })
+    }, [])
 
 
     Array.prototype.random = function () {
@@ -37,7 +48,7 @@ const ShopScreenP = () => {
             <Header></Header>
             <div className="flex-grow px-3 py-4">
                 {/* #TODO To be fixed later */}
-                {JWT.verify(JSON.parse(localStorage.getItem('token')).token, process.env.REACT_APP_JWT_SECRET).user.role === 'child' ? '' :
+                {JWT.verify(token, process.env.REACT_APP_JWT_SECRET).user.role === 'child' ? '' :
                     <ModalCard
                         title="Add New Reward!"
                         description="Test"
@@ -51,9 +62,9 @@ const ShopScreenP = () => {
                 {cardArray.map((card, index) => (
                     <Card
                         key={index}
-                        title={card.title}
+                        title={card.name}
                         description={card.description}
-                        points={card.points}
+                        points={card.cost}
                         color={Colors.random()}
                         type={-1}
                     />
