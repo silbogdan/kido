@@ -1,10 +1,11 @@
 import React from 'react';
 import AddSVG from '../Images/AddSVG';
 import FoodCard from '../Components/FoodCard';
-const ModalCard = ({ title, color, cb }) => {
+const ModalCard = ({ title, color, cb, type_mod }) => {
     const [showModal, setShowModal] = React.useState(false);
     const [awardedPoints, setAwardedPts] = React.useState(0);
     const [rewardtitle, setRewardTitle] = React.useState('');
+    const [description, setDescription] = React.useState('');
 
     return (
         <>
@@ -31,30 +32,38 @@ const ModalCard = ({ title, color, cb }) => {
                         <div className="relative w-auto my-6 mx-auto max-w-3xl">
                             {/*content*/}
                             <form className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-darkPurple outline-white focus:outline-none"
-                                onSubmit={(e) => { e.preventDefault(); cb(awardedPoints, rewardtitle) }}
+                                onSubmit={(e) => { e.preventDefault(); cb(awardedPoints, rewardtitle, description) }}
                             >
                                 {/*header*/}
                                 <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
                                     <h3 className="text-3xl font-semibold text-white">
-                                        New Reward!
+                                        New {type_mod}
                                     </h3>
                                 </div>
                                 {/*body*/}
                                 <div className="relative p-6 flex-auto">
                                     {/* CONTENT HERE */}
                                     <div className="flex flex-col py-3 gap-1">
-                                        <label htmlFor="username" className="text-white text-xl">
+                                        <label htmlFor="username" className="text-white text-xl py-2">
                                             Title
                                         </label>
                                         <input
                                             type="text"
-                                            className="text-lightGreen bg-transparent border-b text-xl"
+                                            className="text-white bg-transparent border-b text-xl"
                                             onChange={(e) => setRewardTitle(e.target.value)}
+                                        />
+                                        <label htmlFor="username" className="text-white text-xl py-2">
+                                            Description
+                                        </label>
+                                        <input
+                                            type="text"
+                                            className="text-white bg-transparent border-b text-xl"
+                                            onChange={(e) => setDescription(e.target.value)}
                                         />
                                     </div>
                                     <div className="flex flex-col py-3 gap-1">
                                         <label htmlFor="username" className="text-white text-xl py-2">
-                                            Points Cost
+                                            Points
                                         </label>
                                         <div className="flex items-center justify-center mb-4">
                                             <button

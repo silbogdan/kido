@@ -16,16 +16,6 @@ const ShopScreenP = () => {
         points: 70,
     }]);
 
-    const cardArray0 = [{
-        title: "Zoo",
-        description: "mergem la zoo",
-        points: 50,
-    },
-    {
-        title: "Cinema",
-        description: "mergem la cinema",
-        points: 70,
-    }]
 
     Array.prototype.random = function () {
         return this[Math.floor(Math.random() * this.length)];
@@ -43,6 +33,7 @@ const ShopScreenP = () => {
                 title="Add New Reward!"
                 description="Test"
                 points={0}
+                type_mod="Reward"
                 color={'darkGreen'}
                 type={-1}
                 cb={rewardsCallBack}
