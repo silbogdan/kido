@@ -49,10 +49,20 @@ const UserService = {
         return foundUser;
     },
 
+    getChild: async (child) => {
+        const foundChild = await User.findOne({
+            $or: [
+                { "children.username": child.username }
+            ]
+        });
+
+        return foundChild;
+    },
+
     verifyUser: async (user) => {
         let foundUser = await UserService.getUser(user);
-        foundUser = foundUser.toJSON();
         if (foundUser) {
+            foundUser = foundUser.toJSON();
             if (await bcrypt.compare(user.password, foundUser.password)) {
                 delete foundUser.password;
                 delete foundUser.__v;
@@ -62,8 +72,17 @@ const UserService = {
                 return false;
             }
         } else {
-            return false;
+            let foundChild = await UserService.getChild(user);
+            if (foundChild) {
+                foundChild = foundChild.toJSON();
+                const child = foundChild.children.find((child) => child.username === user.username);
+                if (await bcrypt.compare(user.password, child.password)) {
+                   return child;
+                }
+            }
         }
+
+        return false;
     },
 
     addChild: async (childData) => {
