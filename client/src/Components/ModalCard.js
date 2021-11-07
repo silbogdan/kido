@@ -1,10 +1,60 @@
 import React from 'react';
 import AddSVG from '../Images/AddSVG';
+import JWT from 'jsonwebtoken';
+import axios from 'axios';
+
 const ModalCard = ({ title, color, cb, type_mod }) => {
     const [showModal, setShowModal] = React.useState(false);
     const [awardedPoints, setAwardedPts] = React.useState(0);
     const [rewardtitle, setRewardTitle] = React.useState('');
     const [description, setDescription] = React.useState('');
+
+    const token = JSON.parse(localStorage.getItem('token'))['token'];
+    let user = JWT.verify(token, process.env.REACT_APP_JWT_SECRET).user;
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        switch (type_mod) {
+            case 'Reward': {
+                if (user.role === 'parent') {
+                    if (user.children[0])
+                        var data = JSON.stringify({
+                            usernameParent: user.username,
+                            usernameChild: user.children[0].username,
+                            name: rewardtitle,
+                            cost: awardedPoints,
+                        });
+                }
+
+                var config = {
+                method: 'post',
+                url: 'localhost:5000/user/addReward',
+                headers: { 
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                data : data
+                };
+
+                axios(config)
+                    .then(function (response) {
+                        console.log(JSON.stringify(response.data));
+                    }).catch(function (error) {
+                        console.log(error);
+                });
+
+            } break;
+            
+            case 'Activity': {
+
+            } break;
+
+            case 'Food': {
+
+            } break;
+        }
+    }
 
     return (
         <>
@@ -116,6 +166,7 @@ const ModalCard = ({ title, color, cb, type_mod }) => {
                                     <button
                                         className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="submit"
+                                        onClick={(e) => handleSubmit(e)}
                                     >
                                         Save Changes
                                     </button>

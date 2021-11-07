@@ -46,9 +46,9 @@ const FoodScreenP = () => {
             <div className="flex-grow px-3 py-4">
             {JWT.verify(token, process.env.REACT_APP_JWT_SECRET).user.role === 'child' ? '' :
                     <ModalCard
-                        title="Add New Reward!"
+                        title="Add New Food!"
                         description="Test"
-                        type_mod="Reward"
+                        type_mod="Food"
                         points={0}
                         color={'darkGreen'}
                         type={1}
