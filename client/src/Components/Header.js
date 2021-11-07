@@ -24,6 +24,7 @@ const Header = ({ token }) => {
         navigate('/');
     }
 
+    console.log(JWT.verify(JSON.parse(localStorage.getItem('token')).token, process.env.REACT_APP_JWT_SECRET).user.role);
 
     return (
         <>

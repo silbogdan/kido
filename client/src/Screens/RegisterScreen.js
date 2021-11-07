@@ -30,6 +30,7 @@ const RegisterScreen = ({ history }) => {
             username,
             email,
             password,
+            role
         };
 
         let config = {
@@ -44,9 +45,9 @@ const RegisterScreen = ({ history }) => {
         axios(config)
             .then(function (response) {
                 let token = JSON.stringify(response.data);
-				console.log(JSON.stringify(response.data));
-				localStorage.setItem('token', token);
-				navigate('/shop');
+                console.log(JSON.stringify(response.data));
+                localStorage.setItem('token', token);
+                navigate('/shop');
             })
             .catch(function (error) {
                 console.log(error);

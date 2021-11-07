@@ -4,6 +4,8 @@ import ModalCard from '../Components/ModalCard';
 import Header from '../Components/Header'
 import Footer from '../Components/Footer'
 import JWT from 'jsonwebtoken'
+import axios from 'axios'
+
 require('dotenv').config();
 
 const ShopScreenP = () => {
@@ -25,8 +27,8 @@ const ShopScreenP = () => {
     };
 
 
-    const rewardsCallBack = (points, title) => {
-        let newArray = [...cardArray, { title, points, description: "" }]
+    const rewardsCallBack = (points, title, description) => {
+        let newArray = [...cardArray, { title, points, description }]
         setCardArray(newArray)
     }
 

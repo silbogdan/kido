@@ -15,7 +15,7 @@ const SportScreenP = () => {
 
     useEffect(() => {
         var data = JSON.stringify({
-            "username": "andreutza"
+            "username": JWT.verify(JSON.parse(localStorage.getItem('token')).token, process.env.REACT_APP_JWT_SECRET).user.username
         });
 
         let config = {
@@ -43,6 +43,31 @@ const SportScreenP = () => {
 
         let newArray = [...cardArray, { title, points, description }]
         setCardArray(newArray)
+
+        let data = {
+            name: title,
+            description,
+            points
+        };
+
+        let config = {
+            method: 'post',
+            url: 'http://localhost:5000/user/addActivity',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            data: data,
+        };
+
+        axios(config)
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
     }
 
     return (

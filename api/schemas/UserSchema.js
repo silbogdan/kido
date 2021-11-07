@@ -19,8 +19,8 @@ const UserSchema = new Schema({
             activities: [
                 {
                     name: String,
-                    time: Number,
-                    reps: Number,
+                    description: String,
+                    points: Number,
                     isActive: Boolean
                 }
             ],

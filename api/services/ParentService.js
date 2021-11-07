@@ -38,8 +38,8 @@ const ParentService = {
         var objIndex = foundParent.children.findIndex((obj => obj.username == body.usernameChild));
         foundParent.children[objIndex].activities.push({
             name: body.name,
-            time: body.time,
-            reps: body.reps
+            description: body.description,
+            points: body.points
         });
 
         foundParent.save();
