@@ -29,6 +29,7 @@ const AuthService = {
 	login: async (user) => {
 		const loginRes = await UserService.verifyUser(user);
 		if (loginRes) {
+			delete loginRes.password;
 			const token = jwt.sign({ user: loginRes }, process.env.JWT_SECRET, {
 				expiresIn: 3600,
 			});
