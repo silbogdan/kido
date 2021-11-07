@@ -89,7 +89,8 @@ const UserService = {
                 role: 'child',
                 activites: [],
                 foods: [],
-                rewards: []
+                rewards: [],
+                points: 0
             });
 
             console.log(parent);
