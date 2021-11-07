@@ -8,6 +8,7 @@ import FoodScreen from './Screens/FoodScreen';
 import HomeScreen from './Screens/HomeScreen';
 import LoginScreen from './Screens/LoginScreen';
 import RegisterScreen from './Screens/RegisterScreen';
+import AddChildScreen from './Screens/AddChildScreen';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
 					<Route exact path="/food" element={<FoodScreen />} />
 					<Route exact path="/sport" element={<SportScreen />} />
 					<Route exact path="/shop" element={<ShopScreen />} />
+					<Route exact path="/refcode" element={<AddChildScreen />} />
 				</Routes>
 			</div>
 		</Router>

@@ -54,4 +54,10 @@ router.post('/addReward', async (req, res) => {
     return res.status(rewardsResult[0]).send(rewardsResult[1]);
 });
 
+router.get('/', async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const getResult = await UserService.getUser(jwt.verify(token, process.env.JWT_SECRET).user);
+    return res.status(200).send(getResult);
+})
+
 module.exports = router;

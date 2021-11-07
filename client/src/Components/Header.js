@@ -24,6 +24,7 @@ const Header = ({ token }) => {
         navigate('/');
     }
 
+    console.log(JWT.verify(JSON.parse(localStorage.getItem('token')).token, process.env.REACT_APP_JWT_SECRET).user.role);
 
     return (
         <>
@@ -40,7 +41,7 @@ const Header = ({ token }) => {
                         <span>{points}</span>
                         <StarSVG width={32} height={30} />
                     </div> :
-                    <div className="flex justify-center gap-3 text-center text-white text-xl">
+                    <div className="flex justify-center gap-3 text-center text-white text-xl" onClick={() => navigate('/refcode')}>
                         add child
                     </div>}
 

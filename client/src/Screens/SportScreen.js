@@ -15,7 +15,6 @@ const SportScreenP = () => {
 
 
     useEffect(() => {
-
         let config = {
             method: 'get',
             url: 'http://localhost:5000/user/getActivities',
@@ -40,6 +39,31 @@ const SportScreenP = () => {
 
         let newArray = [...cardArray, { title, points, description }]
         setCardArray(newArray)
+
+        let data = {
+            name: title,
+            description,
+            points
+        };
+
+        let config = {
+            method: 'post',
+            url: 'http://localhost:5000/user/addActivity',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            data: data,
+        };
+
+        axios(config)
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
     }
 
     return (

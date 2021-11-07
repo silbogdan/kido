@@ -38,7 +38,6 @@ const ParentService = {
         const foundParent = await User.findOne({ username: body.usernameParent });
         if (!foundParent)
             return [404, 'Parent doesn\'t exist'];
-
         // var objIndex = foundParent.children.findIndex((obj => obj.username == body.usernameChild));
 
         let objIndex = 0;

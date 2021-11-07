@@ -21,8 +21,7 @@ const UserSchema = new Schema({
                     name: String,
                     description: String,
                     points: { type: Number, default: 0 },
-                    time: Number,
-                    reps: Number,
+
                     isActive: Boolean
                 }
             ],
