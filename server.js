@@ -11,6 +11,7 @@ mongoose.connect(process.env.MONGO_STRING, { useNewUrlParser: true, useUnifiedTo
 });
 
 const Auth = require('./api/routes/Auth');
+const User = require('./api/routes/User');
 
 app.use(express.json());
 
@@ -28,10 +29,12 @@ app.use(
   
           return null;
       }
-    }).unless({ path: ['/auth/login', '/auth/register'] })
+    }).unless({ path: ['/auth/login', '/auth/register', '/user/addchild'] })
 );
 
 app.use('/auth', Auth);
+
+app.use('/user', User);
 
 app.get('/', (req, res) => res.status(200).send('lol'));
 

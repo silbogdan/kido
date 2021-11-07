@@ -22,7 +22,9 @@ const UserService = {
                 "email": user.email,
                 "username": user.username,
                 "password": hashedPass,
-                "role": user.role
+                "role": user.role,
+                "code": (Math.floor(Math.random() * (999999 - 100000) + 100000)).toString(),
+                "children": []
             });
 
             newUser.save((err) => {
@@ -63,6 +65,42 @@ const UserService = {
         } else {
             return false;
         }
+    },
+
+    addChild: async (childData) => {
+        let parent = await User.findOne({ username: childData.username });
+
+        if (parent)
+            return [400, 'Username exists'];
+
+        parent = await User.findOne().where({ code: childData.code })
+            .where({ 'children.username': { $ne: childData.username }})
+            .exec();
+
+        if (parent) {
+            const salt = bcrypt.genSaltSync(10);
+            const hashedPass = bcrypt.hashSync(childData.password, salt);
+
+            parent.children.push({
+                firstName: childData.firstName,
+                lastName: childData.lastName,
+                username: childData.username,
+                password: hashedPass,
+                role: 'child',
+                activites: [],
+                foods: [],
+                rewards: []
+            });
+
+            console.log(parent);
+
+
+            parent.save();
+
+            return [201, `Child ${childData.username} added`];
+        }
+
+        return [400, 'Invalid data'];
     }
 };
 
