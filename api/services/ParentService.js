@@ -13,8 +13,8 @@ const ParentService = {
         if (!foundParent)
             return [404, 'Parent doesn\'t exist'];
 
-        console.log(foundParent);
-        foundParent.children[0].foods.push({ name: body.nameRecipe });
+        var objIndex = foundParent.children.findIndex((obj => obj.username == body.usernameChild));
+        foundParent.children[objIndex].foods.push({ name: body.nameRecipe });
 
         foundParent.save();
 
@@ -35,8 +35,8 @@ const ParentService = {
         if (!foundParent)
             return [404, 'Parent doesn\'t exist'];
 
-        console.log(foundParent);
-        foundParent.children[0].activities.push({
+        var objIndex = foundParent.children.findIndex((obj => obj.username == body.usernameChild));
+        foundParent.children[objIndex].activities.push({
             name: body.name,
             time: body.time,
             reps: body.reps
@@ -60,8 +60,8 @@ const ParentService = {
         if (!foundParent)
             return [404, 'Parent doesn\'t exist'];
 
-        console.log(foundParent);
-        foundParent.children[0].rewards.push({
+        var objIndex = foundParent.children.findIndex((obj => obj.username == body.usernameChild));
+        foundParent.children[objIndex].rewards.push({
             name: body.name,
             cost: body.cost,
         });
