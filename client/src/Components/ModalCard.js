@@ -1,6 +1,5 @@
 import React from 'react';
 import AddSVG from '../Images/AddSVG';
-import FoodCard from '../Components/FoodCard';
 const ModalCard = ({ title, color, cb, type_mod }) => {
     const [showModal, setShowModal] = React.useState(false);
     const [awardedPoints, setAwardedPts] = React.useState(0);
