@@ -10,7 +10,13 @@ const AuthService = {
         password,
     */
 	register: async (user) => {
-		const savedResult = await UserService.addUser(user);
+		let savedResult;
+
+		if (user.role === 'parent')
+			savedResult = await UserService.addUser(user);
+		else
+			savedResult = await UserService.addChild(user);
+			
 		if (savedResult) {
 			delete user.password;
 			const token = jwt.sign({ user: user }, process.env.JWT_SECRET, {
