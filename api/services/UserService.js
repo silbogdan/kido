@@ -1,7 +1,6 @@
 const User = require('../schemas/UserSchema');
 const bcrypt = require('bcrypt');
 
-
 const UserService = {
     addUser: async (user) => {
         const salt = bcrypt.genSaltSync(10);
