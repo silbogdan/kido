@@ -9,27 +9,24 @@ require('dotenv').config();
 
 const SportScreenP = () => {
     const Colors = ['orange', 'yellow', 'lightGreen', 'darkGreen'];
-    const [jwt_dict, setJWT_DICT] = useState({});
     const [cardArray, setCardArray] = useState([])
+    const token = JSON.parse(localStorage.getItem('token'))['token'];
+
 
 
     useEffect(() => {
-        var data = JSON.stringify({
-            "username": "andreutza"
-        });
 
         let config = {
             method: 'get',
             url: 'http://localhost:5000/user/getActivities',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            },
-            data: data,
+                'Authorization': `Bearer ${token}`
+            }
         };
 
 
-        axios.get('http://localhost:5000/user/getActivities').then(res => {
+        axios(config).then(res => {
             const activities = res.data;
             setCardArray(activities);
         })
@@ -50,7 +47,7 @@ const SportScreenP = () => {
             <Header />
             <div className="flex-grow px-3 py-4">
                 {/* #TODO To be fixed later */}
-                {JWT.verify(JSON.parse(localStorage.getItem('token')).token, process.env.REACT_APP_JWT_SECRET).user.role === 'child' ? '' :
+                {JWT.verify(token, process.env.REACT_APP_JWT_SECRET).user.role === 'child' ? '' :
                     <ModalCard
                         title="Add New Activity!"
                         description="Test"
@@ -65,7 +62,7 @@ const SportScreenP = () => {
                 {cardArray.map((card, index) => (
                     <Card
                         key={index}
-                        title={card.title}
+                        title={card.name}
                         description={card.description}
                         points={card.points}
                         color={Colors.random()}
