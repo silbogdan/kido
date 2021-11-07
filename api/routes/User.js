@@ -23,15 +23,50 @@ router.get('/getFood', async (req, res) => {
 router.get('/getActivities', async (req, res) => {
     const token = req.headers.authorization.split(' ')[1];
 
-    const activitiesesult = await ChildService.getActivities(jwt.verify(token, process.env.JWT_SECRET));
+    const user = jwt.verify(token, process.env.JWT_SECRET).user;
 
-    return res.status(activitiesesult[0]).send(activitiesesult[1]);
+    console.log(user);
+
+    let activitiesResult = await ChildService.getActivities(jwt.verify(token, process.env.JWT_SECRET));
+    if (user) {
+        if (user.role === 'child')
+            activitiesResult = await ChildService.getActivities(user);
+        else {
+            if (user.children) {
+                if (user.children[0]) {
+                    activitiesResult = await ChildService.getActivities(user.children[0]);
+                } else {
+                    return res.status(400).send('Aoleu maica');
+                }
+            } else {
+                return res.status(204).send([]);
+            }
+        }
+    } else {
+        return res.status(204).send([]);
+    }
+
+    return res.status(activitiesResult[0]).send(activitiesResult[1]);
 });
 
 router.get('/getRewards', async (req, res) => {
     const token = req.headers.authorization.split(' ')[1];
 
-    const rewardsResult = await ChildService.getRewards(jwt.verify(token, process.env.JWT_SECRET));
+    const user = jwt.verify(token, process.env.JWT_SECRET).user;
+
+    let rewardsResult;
+
+    console.log(user);
+
+    if (user.role === 'child')
+        rewardsResult = await ChildService.getRewards(user);
+    else {
+        if (user.children[0]) {
+            rewardsResult = await ChildService.getRewards(user.children[0]);
+        } else {
+            return res.status(400).send('Aoleu maica');
+        }
+    }
 
     return res.status(rewardsResult[0]).send(rewardsResult[1]);
 });

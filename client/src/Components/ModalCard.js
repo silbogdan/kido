@@ -2,8 +2,11 @@ import React from 'react';
 import AddSVG from '../Images/AddSVG';
 import JWT from 'jsonwebtoken';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ModalCard = ({ title, color, cb, type_mod }) => {
+    const navigate = useNavigate();
+
     const [showModal, setShowModal] = React.useState(false);
     const [awardedPoints, setAwardedPts] = React.useState(0);
     const [rewardtitle, setRewardTitle] = React.useState('');
@@ -17,9 +20,12 @@ const ModalCard = ({ title, color, cb, type_mod }) => {
 
         switch (type_mod) {
             case 'Reward': {
+
+                let data;
+
                 if (user.role === 'parent') {
                     if (user.children[0])
-                        var data = JSON.stringify({
+                        data = JSON.stringify({
                             usernameParent: user.username,
                             usernameChild: user.children[0].username,
                             name: rewardtitle,
@@ -29,7 +35,7 @@ const ModalCard = ({ title, color, cb, type_mod }) => {
 
                 var config = {
                 method: 'post',
-                url: 'localhost:5000/user/addReward',
+                url: 'http://localhost:5000/user/addReward',
                 headers: { 
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -40,6 +46,7 @@ const ModalCard = ({ title, color, cb, type_mod }) => {
                 axios(config)
                     .then(function (response) {
                         console.log(JSON.stringify(response.data));
+                        window.location.reload();
                     }).catch(function (error) {
                         console.log(error);
                 });
@@ -47,7 +54,7 @@ const ModalCard = ({ title, color, cb, type_mod }) => {
             } break;
             
             case 'Activity': {
-
+                
             } break;
 
             case 'Food': {

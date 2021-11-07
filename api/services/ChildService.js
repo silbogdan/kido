@@ -36,10 +36,11 @@ const ChildService = {
     },
 
     getActivities: async (child) => {
-        const foundChild = await ChildService.getChild(child.user);
+        const foundChild = await ChildService.getChild(child);
+        console.log(foundChild);
         if (foundChild) {
             if (!foundChild[0])
-                return [200, []]
+                return [204, []]
             return [200, foundChild[0].activities];
         }
 
@@ -47,7 +48,7 @@ const ChildService = {
     },
 
     getRewards: async (child) => {
-        const foundChild = await ChildService.getChild(child.user);
+        const foundChild = await ChildService.getChild(child);
 
         if (foundChild) {
             if (!foundChild[0])
