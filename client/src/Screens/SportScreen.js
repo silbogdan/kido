@@ -4,24 +4,35 @@ import ModalCard from '../Components/ModalCard';
 import Header from '../Components/Header'
 import Footer from '../Components/Footer'
 import JWT from 'jsonwebtoken'
+import axios from 'axios';
 require('dotenv').config();
 
 const SportScreenP = () => {
     const Colors = ['orange', 'yellow', 'lightGreen', 'darkGreen'];
     const [jwt_dict, setJWT_DICT] = useState({});
-    const [cardArray, setCardArray] = useState([{
-        title: "Genoflexiuni",
-        description: "10 Repetari",
-        points: 50,
-    },
-    {
-        title: "Alergat",
-        description: "30 Minute in parc",
-        points: 70,
-    }])
+    const [cardArray, setCardArray] = useState([])
 
 
     useEffect(() => {
+        var data = JSON.stringify({
+            "username": "andreutza"
+        });
+
+        let config = {
+            method: 'get',
+            url: 'http://localhost:5000/user/getActivities',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            data: data,
+        };
+
+
+        axios.get('http://localhost:5000/user/getActivities').then(res => {
+            const activities = res.data;
+            setCardArray(activities);
+        })
     }, [])
 
     Array.prototype.random = function () {
@@ -29,6 +40,7 @@ const SportScreenP = () => {
     };
 
     const rewardsCallBack = (points, title, description) => {
+
         let newArray = [...cardArray, { title, points, description }]
         setCardArray(newArray)
     }

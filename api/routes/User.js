@@ -18,7 +18,7 @@ router.get('/getFood', async (req, res) => {
     return res.status(foodResult[0]).send(foodResult[1]);
 });
 
-router.get('/getActivities', async (req, res) => {
+router.post('/getActivities', async (req, res) => {
     const activitiesesult = await ChildService.getFood(req.body);
 
     return res.status(activitiesesult[0]).send(activitiesesult[1]);

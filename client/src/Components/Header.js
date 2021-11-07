@@ -8,7 +8,7 @@ require('dotenv').config();
 const Header = ({ token }) => {
     // const [token, setToken] = useState(null);
     const navigate = useNavigate();
-    const [name, setName] = useState('Codrut');
+    const [name, setName] = useState('');
     const [points, setPoints] = useState(100);
     const [role, setRole] = useState('');
 
